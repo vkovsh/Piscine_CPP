@@ -13,7 +13,6 @@
 #include "ContactClass.hpp"
 #include "phonebook.h"
 #include <iostream>
-#include <cstdlib>
 
 static std::string	read_command(void)
 {
@@ -21,7 +20,7 @@ static std::string	read_command(void)
 	std::locale		loc;
 
 	command.erase();
-	std::cin >> command;
+	std::getline(std::cin, command);
 	for (std::string::size_type i = 0; i < command.length(); i++)
 		command[i] = std::toupper(command[i], loc);
 	return (command);
@@ -29,35 +28,51 @@ static std::string	read_command(void)
 
 int					main(void)
 {
-	std::string	command;
+	std::string		command;
+	Contact			Contacts[Contact::GetMaxContactNumber()];	
 
 	std::cout << WELCOME_STR << std::endl;
 	while (true) {
 		std::cout << LOOP_STR << std::endl;
 		command = read_command();
 		if (command == EXIT_CMD) {
-			Contact::Exit();
 			break ;
 		}
 		else if (command == ADD_CMD) {
-				Contact *obj = new Contact();
-				Contact::Add(obj);
+			if (Contact::GetCounter() < Contact::GetMaxContactNumber() - 1) {
+				Contact::Add();
+				Contacts[Contact::GetCounter()].FillContact();
+			}
+			else {
+				std::cout << "Phonebook is full!" << std::endl;
+			}
 		}
 		else if (command == SEARCH_CMD) {
-			Contact::ShowContacts();
-			int index;
-			Contact *contact =  NULL;
-			while (contact == NULL) {
-				std::cout << "Input index: ";
-				std::string buffer;
-				std::cin >> buffer;
-				index = atoi(buffer.c_str());
-				if ((contact = Contact::Search(index)) != NULL) {
-					std::cout << "Contact " << index << std::endl;
-					contact->PrintContact();
-				}
-				else {
-					std::cout << "Bad input. Try again." << std::endl;
+			Contact::ShowContacts(Contacts);
+			if (Contact::GetCounter() < 0) {
+				std::cout << "Phonebook is empty!" << std::endl;
+			}
+			else {
+				bool success = false;
+				while (!success) {
+					int index;
+					std::cout << "Input index: ";
+					std::string buffer;
+					std::getline(std::cin, buffer);
+					if (buffer.size() == 1 && buffer[0] >= '0' && buffer[0] <= '8') {
+						index = buffer[0] - '0';
+						if (index <= Contact::GetCounter()) {
+							std::cout << "Contact " << index << std::endl;
+							(Contact::Search(index, Contacts)).PrintContact();
+							success = true;
+						}
+						else {
+							std::cout << "No contact with such name!" << std::endl;
+						}
+					}
+					else {
+						std::cout << "Bad input!" << std::endl;
+					}
 				}
 			}
 		}
