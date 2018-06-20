@@ -1,5 +1,7 @@
 #include "Logger.hpp"
 
+std::string	Logger::_logTypeNames[2] = {"logToConsole", "logToFile"};
+
 std::string	Logger::createTimestamp( void ) {
 	std::time_t t = std::time(0);
 	std::tm	*now = std::localtime(&t);
@@ -50,7 +52,12 @@ void		Logger::logToFile(std::string const & logEntry) {
 }
 
 void		Logger::log(std::string const & dest, std::string const & message) {
-	(this->*_log_streams[dest[0] - '0'])(this->makeLogEntry(message));
+	for (int i = 0; i < 2; ++i) {
+		if (Logger::_logTypeNames[i] == dest) {
+			(this->*_log_streams[i])(this->makeLogEntry(message));
+			break ;
+		}
+	}
 }
 		
 Logger::~Logger( void ) {}

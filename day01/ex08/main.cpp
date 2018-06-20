@@ -2,9 +2,9 @@
 
 int	main(void) {
 	Human *assasin = new Human();
-	assasin->action("0", "Bob");
-	assasin->action("1", "Charley");
-	assasin->action("2", "Ashley");
+	assasin->action("meleeAttack", "Bob");
+	assasin->action("rangedAttack", "Charley");
+	assasin->action("intimidatingShout", "Ashley");
 	delete assasin;
 	return (0);
 }

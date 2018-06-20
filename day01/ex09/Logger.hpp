@@ -8,6 +8,7 @@
 class Logger	{
 	typedef void (Logger::*log_func)(std::string const &);
 	private:
+		static std::string	_logTypeNames[2];
 		log_func	_log_streams[2];
 		std::string	_dst;
 

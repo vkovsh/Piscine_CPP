@@ -15,8 +15,14 @@ void	Human::intimidatingShout(std::string const & target) {
 void	Human::action(std::string const & action_name, std::string const & target) {
 	typedef void (Human::*attacks_func)(std::string const &);
 	attacks_func attacks[3] = {&Human::meleeAttack, &Human::rangedAttack, &Human::intimidatingShout};
-	attacks_func attack = attacks[action_name[0] - '0'];
-	(this->*attack)(target);
+	std::string	func_names[3] = {"meleeAttack", "rangedAttack", "intimidatingShout"};
+	for (int i = 0; i < 3; ++i) {
+		if (action_name == func_names[i]) {
+			attacks_func attack = attacks[i];
+			(this->*attack)(target);
+			break ;
+		}
+	}
 }
 		
 	

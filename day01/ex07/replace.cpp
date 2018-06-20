@@ -20,28 +20,33 @@ int	main(int ac, char **av) {
 		std::string		sub = str1 + str2;
 		std::string		paste = str2 + str1;
 		
-		while (ifs.eof() == false) {
-			std::string buf;
-			getline(ifs, buf);
-			buf.push_back('\n');
-			content += buf;
+		if (ifs.good() == true) {
+			while (ifs.eof() == false) {
+				std::string buf;
+				getline(ifs, buf);
+				buf.push_back('\n');
+				content += buf;
+			}
+			content = content.substr(0, content.size() - 1);
+			ifs.close();
+			size_t position = content.find(sub, 0);
+			while (position != std::string::npos) {
+				content.replace(position, sub.size(), paste);
+				position = content.find(sub, position + 1);
+			}
+			std::locale	loc;
+			std::string	replace_filename;
+			for (size_t i = 0; i < filename.length(); ++i) {
+				replace_filename.push_back(toupper(filename[i], loc));
+			}
+			replace_filename = replace_filename + ".replace";
+			std::ofstream	ofs(replace_filename.c_str());
+			ofs << content;
+			ofs.close();
 		}
-		content = content.substr(0, content.size() - 1);
-		ifs.close();
-		size_t position = content.find(sub, 0);
-		while (position != std::string::npos) {
-			content.replace(position, sub.size(), paste);
-			position = content.find(sub, position + 1);
+		else {
+			std::cout << "Open file error occured!" << std::endl;
 		}
-		std::locale	loc;
-		std::string	replace_filename;
-		for (size_t i = 0; i < filename.length(); ++i) {
-			replace_filename.push_back(toupper(filename[i], loc));
-		}
-		replace_filename = replace_filename + ".replace";
-		std::ofstream	ofs(replace_filename.c_str());
-		ofs << content;
-		ofs.close();
 	}
 	return (0);
 }

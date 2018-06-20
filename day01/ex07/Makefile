@@ -3,7 +3,7 @@ NAME	=	replace
 SRCS	=	replace.cpp
 
 FLAGS	=	-Wall -Werror -Wextra
-CC		=	g++
+CC		=	clang++
 RM		=	rm -rf
 
 OBJ		=	$(SRCS:.cpp=.o)
