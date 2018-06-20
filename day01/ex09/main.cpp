@@ -1,7 +1,7 @@
 #include "Logger.hpp"
 
 int	main(void) {
-	Logger *logger = new Logger();
+	Logger *logger = new Logger("Logfile.txt");
 	std::string entry = "I am alive";
 	logger->log("logToConsole", "I am alive!");
 	logger->log("logToConsole", "Doing something.");
