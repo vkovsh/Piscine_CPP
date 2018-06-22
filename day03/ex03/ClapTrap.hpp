@@ -1,23 +1,17 @@
-#ifndef FRAG_TRAP_HPP
-# define FRAG_TRAP_HPP
+#ifndef CLAP_TRAP_HPP
+# define CLAP_TRAP_HPP
 # include <iostream>
 
-class	FragTrap	{
+class	ClapTrap {
+	//static area
 	private:
-		//const area
-		const static int _meleeNbr = 4;
-		const static int _rangedNbr = 4;
-		const static int _typeNbr = 2;
-		static std::string _meleeAttacks[_meleeNbr];
-		static std::string _rangedAttacks[_rangedNbr];
-
-		//static area
 		static int	_maxHitPoints;
 		static int	_maxEnergyPoints;
-
 		//static getters
 		static int	getMaxHitPoints(void);
 		static int	getMaxEnergyPoints(void);
+		
+	protected:
 
 		//static setters
 		static void	setMaxHitPoints(int points);
@@ -32,20 +26,22 @@ class	FragTrap	{
 		int			_rangedAttackDamage;
 		int			_armorDamageReduction;
 		bool		_freezed;
+
+		ClapTrap(void);
 	
 	public:
 		//constructors
-		FragTrap(std::string name = "FragTrap");
-		FragTrap(FragTrap const &cpy);
+		ClapTrap(std::string name = "ClapTrap");
+		ClapTrap(ClapTrap const &cpy);
 
 		//destructor
-		~FragTrap(void);
+		~ClapTrap(void);
 
 		//getters
 		int			getHitPoints(void);
 		int			getEnergyPoints(void);
 		int			getLevel(void);
-		std::string	getName(void);
+		std::string	getName(void) const;
 		int			getMeleeAttackDamage(void);
 		int			getRangedAttackDamage(void);
 		int			getArmorDamageReduction(void);
@@ -60,16 +56,11 @@ class	FragTrap	{
 		void		setArmorDamageReduction(int n);
 
 		//methods
-		void		rangedAttack(std::string const & target);
-		void		meleeAttack(std::string const & target);
 		void		takeDamage(unsigned int amount);
 		void		beRepaired(unsigned int amount);
-		void		vaulthunter_dot_exe(std::string const & target);
 
 		//operators oberloading
-		FragTrap	&operator = (const FragTrap &cpy);
+		ClapTrap	&operator = (const ClapTrap &cpy);
 };
-
-std::ostream		&operator << (std::ostream &o, const FragTrap &cpy);
 
 #endif

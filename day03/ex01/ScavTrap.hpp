@@ -1,8 +1,8 @@
-#ifndef FRAG_TRAP_HPP
-# define FRAG_TRAP_HPP
+#ifndef SCAV_TRAP_HPP
+# define SCAV_TRAP_HPP
 # include <iostream>
 
-class	FragTrap	{
+class	ScavTrap	{
 	private:
 		//const area
 		const static int _meleeNbr = 4;
@@ -35,11 +35,11 @@ class	FragTrap	{
 	
 	public:
 		//constructors
-		FragTrap(std::string name = "FragTrap");
-		FragTrap(FragTrap const &cpy);
+		ScavTrap(std::string name = "ScavTrap");
+		ScavTrap(ScavTrap const &cpy);
 
 		//destructor
-		~FragTrap(void);
+		~ScavTrap(void);
 
 		//getters
 		int			getHitPoints(void);
@@ -64,12 +64,12 @@ class	FragTrap	{
 		void		meleeAttack(std::string const & target);
 		void		takeDamage(unsigned int amount);
 		void		beRepaired(unsigned int amount);
-		void		vaulthunter_dot_exe(std::string const & target);
+		void		challengeNewcomer(std::string const & target);
 
 		//operators oberloading
-		FragTrap	&operator = (const FragTrap &cpy);
+		ScavTrap	&operator = (const ScavTrap &cpy);
 };
 
-std::ostream		&operator << (std::ostream &o, const FragTrap &cpy);
+std::ostream		&operator << (std::ostream &o, const ScavTrap &cpy);
 
 #endif

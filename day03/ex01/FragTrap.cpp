@@ -30,7 +30,7 @@ void FragTrap::setMaxEnergyPoints(int points) {
 
 //constructors
 FragTrap::FragTrap(std::string name): _name(name) {
-	std::cout << _name << " is alive!" << std::endl;
+	std::cout << "FragTrap " << _name << " is alive!" << std::endl;
 	std::cout << "Get ready for some Fragtrap face time!" << std::endl;
 	_hitPoints = FragTrap::_maxHitPoints;
 	_energyPoints = FragTrap::_maxEnergyPoints;
@@ -49,7 +49,7 @@ FragTrap::FragTrap(FragTrap const &cpy) {
 //destructor
 FragTrap::~FragTrap(void) {
 	std::cout << "Argh arghargh death gurgle gurglegurgle urgh... death." << std::endl;
-	std::cout << _name << " dead!" << std::endl;
+	std::cout << "FragTrap " <<_name << " is dead! Rest in hell bastards!" << std::endl;
 }
 
 //getters
@@ -125,7 +125,6 @@ void		FragTrap::setArmorDamageReduction(int n) {
 FragTrap	&FragTrap::operator = (const FragTrap &cpy) {
 	if(this == &cpy)
        return (*this);
-	_freezed = cpy._freezed;
 	_name = cpy._name;
 	_hitPoints = cpy._hitPoints;
 	_energyPoints = cpy._energyPoints;
@@ -133,19 +132,21 @@ FragTrap	&FragTrap::operator = (const FragTrap &cpy) {
 	_meleeAttackDamage = cpy._meleeAttackDamage;
 	_rangedAttackDamage = cpy._rangedAttackDamage;
 	_armorDamageReduction = cpy._armorDamageReduction;
+	_freezed = cpy._freezed;
 	return (*this);
+
 }
 
 //methods
 void		FragTrap::rangedAttack(std::string const & target) {
-	std::cout << "I'm a tornado of death and bullets! " << std::endl;
+	std::cout << "I'm a tornado of death and bullets!" << std::endl;
 	std::cout << "FragTrap " << _name << " attacks ";
 	std::cout << target << " at range, causing " << _rangedAttackDamage;
 	std::cout << " points of damage !" << std::endl;
 }
 
 void		FragTrap::meleeAttack(std::string const & target) {
-	std::cout << "Pain school is now in session" << std::endl;
+	std::cout << "Pain school is now in session!" << std::endl;
 	std::cout << "FragTrap " << _name << " attacks ";
 	std::cout << target << " at melee, causing " << _meleeAttackDamage;
 	std::cout << " points of damage !" << std::endl;
@@ -158,9 +159,9 @@ void		FragTrap::takeDamage(unsigned int amount) {
 	int	nbr = this->getHitPoints() - damage;
 	std::cout << "FragTrap " << _name << " takes " << damage << " damage!" << std::endl;
 	if (nbr <= 0) {
-		std::cout << "Damn! I need repair! Help!" << std::endl;
 		this->setHitPoints(0);
 		this->_freezed = true;
+		std::cout << "FragTrap " << _name << " needs help!" << std::endl;
 	}
 	else {
 		this->setHitPoints(nbr);
@@ -173,12 +174,13 @@ void		FragTrap::beRepaired(unsigned int amount) {
 		nbr = FragTrap::getMaxHitPoints();
 	}
 	int diff = nbr - this->getHitPoints();
-	std::cout << _name << " recovered " << diff << " HP" << std::endl; 
+	std::cout << "FragTrap " << _name << " recovered " << diff << " HP" << std::endl; 
 	this->setHitPoints(nbr);
 }
+
 void		FragTrap::vaulthunter_dot_exe(std::string const & target) {
-	if (this->_freezed == true) {
-		std::cout << "I'm freezed! Need repair!" << std::endl;
+	if (_freezed == true) {
+		std::cout << "FragTrap " << _name << " freezed!" << std::endl;
 	}
 	else if (this->getEnergyPoints() >= 25) {
 		int type = rand() % FragTrap::_typeNbr;
