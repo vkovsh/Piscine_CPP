@@ -110,13 +110,18 @@ int enemies_shooting(Player &player, Enemy &enemy, FieldWindow &gameWindow, bool
   return (1);
 }
 
+void  waiting_for_start(FieldWindow *w) {
+  init_pair(5, COLOR_RED, COLOR_BLACK);
+  wattron(w->getWindow(), COLOR_PAIR(5));
+  w->PutStr("Press any key to start", w->getRows() / 3, w->getColumns() / 2);
+  w->GetChar();
+  wattroff(w->getWindow(), COLOR_PAIR(5));
+}
+
 int	main(void)
 {
     std::srand(time(NULL));
-    /*int enemies = 1 + rand() % 12;
-    Enemy enemy(enemies, "zork");
-    fill_coords(enemy);*/
-	initscr();
+    initscr();
     curs_set(0);
     start_color();
     noecho();
@@ -130,33 +135,29 @@ int	main(void)
     clear();
     refresh();
     FieldWindow gameWindow = FieldWindow(32, 60);
+    waiting_for_start(&gameWindow);
     Player player("nemesis");
     player.name = "nemesis";
-    /*
-    Enemy enemy(enemies, "zork");
-    fill_coords(enemy);
-*/
     Window infoWindow = Window(11, 40, 21, 61);
     Window statWindow = Window(20, 40, 0, 61);
-    keypad(stdscr, true);
-   // int x, y;
-    halfdelay(8);
     player.current_bullet = 0;
     int enemies = 1 + rand() % 12;
     Enemy enemy(enemies, "zork");
     fill_coords(enemy);
-    //enemies_shooting(player, enemy, gameWindow, false);
     bool enemy_render = true;
-    while (true) {
+    nodelay(gameWindow.getWindow(), true);
+    raw();
+    player.game_over = false;
+    while (!player.game_over) {
+        usleep(7 * MICROSECONDS_BY_FRAME);
         int key = gameWindow.GetChar();
-        player.move(key);
-        if (key == 32) {
+        if (key == KEY_SPACE) {
             player.makeShooting();
         }
-        /*else if (key == KEY_EXIT)
-            exit(0);*/
-        //getmaxyx(stdscr, y, x);
-        //gameWindow.Resize(y - 5, x - 5);
+        else if (key == KEY_ESC) {
+          endwin();
+          return 0;
+        }
         gameWindow.Clear();
         gameWindow.DrawBox('*' | A_BOLD, '*' | A_BOLD);
         gameWindow.drawField();
@@ -179,6 +180,7 @@ int	main(void)
                                 player.rockets[i].x + X_SPLIT);
             player.rockets[i].x += 2;
         }
+        player.move(key);
         init_info_window(&infoWindow);
         init_stat_window(&statWindow, &player);
         gameWindow.Refresh();

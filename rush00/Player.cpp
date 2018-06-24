@@ -141,6 +141,7 @@ void Player::makeShooting()
   else if (this->lives == 0)
   {
     std::cout << "Game over! Your player died. Try again!" << std::endl;
+    this->game_over = true;
     this->score = 0;
     this->scoreOnLevel = 0;
     this->maxScoreOnLevel = 100;

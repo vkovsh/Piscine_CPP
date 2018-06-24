@@ -11,7 +11,7 @@ GameEntity::GameEntity(std::string ustype)
   //std::cout << ustype << "GameEntity Name constructor" << std::endl;
 
   this->type = ustype;
-  this->symb = 'o';
+  this->symb = '<';
   this->x = 1;
   this->y = 1;
 }
