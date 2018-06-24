@@ -112,7 +112,7 @@ void Player::makeShooting()
   {
     this->bullets--;
     if (this->current_bullet == 100)
-      this->current_bullet = 0;
+      this->current_bullet = -1;
     rockets[current_bullet].rocketMoving(this->x, this->y);
     this->current_bullet++;
     this->score += 5;
@@ -124,13 +124,10 @@ void Player::makeShooting()
       this->maxScoreOnLevel += 100;
       this->scoreOnLevel = 0;
       this->bullets += 100;
-      std::cout << "You riched " << this->level << " level!\n"
-                << "Your ammunition was raised to " << this->bullets << "!" << std::endl;
     }
   }
   else if (this->bullets == 0)
   {
-    std::cout << "Game over! Bullets ended before you won all enemies! Try again!" << std::endl;
     this->score = 0;
     this->scoreOnLevel = 0;
     this->maxScoreOnLevel = 100;
@@ -144,14 +141,13 @@ void Player::makeShooting()
     j = 0;
     while (j < bullets)
     {
-      this->rockets[j].x = this->x;
+      this->rockets[j].x = this->x + 2;
       this->rockets[j].y = this->y;
       j++;
     }
   }
   else if (this->lives == 0)
   {
-    std::cout << "Game over! Your player died. Try again!" << std::endl;
     this->score = 0;
     this->scoreOnLevel = 0;
     this->maxScoreOnLevel = 100;
@@ -161,11 +157,11 @@ void Player::makeShooting()
     this->bullets = 100;
     this->x = 0;
     this->y = 0;
-    this->current_bullet = 0;
+    this->current_bullet = -1;
     j = 0;
     while (j < bullets)
     {
-      this->rockets[j].x = this->x;
+      this->rockets[j].x = this->x + 2;
       this->rockets[j].y = this->y;
       j++;
     }

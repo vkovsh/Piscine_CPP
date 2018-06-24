@@ -51,10 +51,10 @@ void handle_winch(int sig){
 int	main(void)
 {
 	initscr();
-    signal(SIGWINCH, handle_winch);
     curs_set(0);
     start_color();
     noecho();
+    signal(SIGWINCH, handle_winch);
     while(true){
         struct winsize w;
         ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
@@ -67,7 +67,7 @@ int	main(void)
     Player player("nemesis");
     player.name = "nemesis";
     Enemy enemy("zork");
-    enemy.x = 20;
+    enemy.x = 40;
     enemy.y = 4;
     player.x = 0;
     player.y = 0;
@@ -79,23 +79,40 @@ int	main(void)
     keypad(stdscr, true);
    // int x, y;
     halfdelay(2);
+    player.current_bullet = -1;
     while (true) {
         int key = gameWindow.GetChar();
         player.move(key);
-        /*else if (key == 32)
-            return (0);
-        else if (key == KEY_EXIT)
+        if (key == 32) {
+            player.makeShooting();
+        }
+        /*else if (key == KEY_EXIT)
             exit(0);*/
         //getmaxyx(stdscr, y, x);
         //gameWindow.Resize(y - 5, x - 5);
         gameWindow.Clear();
         gameWindow.DrawBox('*' | A_BOLD, '*' | A_BOLD);
         gameWindow.drawField();
+        
+        init_pair(3, COLOR_GREEN, COLOR_BLACK);
+        wattron(gameWindow.getWindow(), COLOR_PAIR(3));
         gameWindow.PutChar(player.symb | A_BOLD,
                             player.y + Y_SPLIT, player.x + X_SPLIT);
+        wattroff(gameWindow.getWindow(), COLOR_PAIR(3));
+        
+        init_pair(4, COLOR_RED, COLOR_BLACK);
+        wattron(gameWindow.getWindow(), COLOR_PAIR(4));
         gameWindow.PutChar(enemy.symb | A_BOLD, enemy.y, enemy.x);
+        wattroff(gameWindow.getWindow(), COLOR_PAIR(4));
         if (enemy.x)
             enemy.x -= 2;
+
+        for (int i = 0; i <= player.current_bullet; ++i) {
+            gameWindow.PutChar(player.rockets[i].symb | A_BOLD,
+                                player.rockets[i].y + Y_SPLIT,
+                                player.rockets[i].x + X_SPLIT);
+            player.rockets[i].x += 2;
+        }
         gameWindow.Refresh();
     }
     endwin();

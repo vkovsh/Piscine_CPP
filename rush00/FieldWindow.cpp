@@ -51,10 +51,15 @@ bool	FieldWindow::drawField(void) {
 	for (int i = 0; i < (int)name.size(); ++i) {
 		PutChar(name[i] | A_BOLD | A_UNDERLINE, 1, i + 25);
 	}
+	init_pair(2, COLOR_BLUE, COLOR_BLACK);
+    wattron(_window, COLOR_PAIR(2));
+	wattron(_window, A_BOLD);
 	for (int i = 1; i <= _height; ++i) {
 		for (int j = 1; j <= _width; ++j) {
 			drawCell(i, j);
 		}
 	}
+	wattroff(_window, A_BOLD);
+	wattroff(_window, COLOR_PAIR(2));
 	return (true);
 }
