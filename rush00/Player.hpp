@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "GameEntity.hpp"
+#include "ft_retro.h"
 
 class Player: public GameEntity
 {
@@ -22,6 +23,7 @@ class Player: public GameEntity
     int bullets;
     int current_bullet;
     int lives;
+    void move(int key);
     void makeShooting();
 };
 

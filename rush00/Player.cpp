@@ -2,6 +2,17 @@
 #include "Player.hpp"
 #include "GameEntity.hpp"
 
+void Player::move(int key) {
+  if (key == KEY_W)
+    y -= (y != 0) ? 2 : 0;
+  else if (key == KEY_S)
+    y += (y != FIELD_HEIGHT - 2) ? 2 : 0;
+  else if (key == KEY_D)
+    x += (x != FIELD_WIDTH - 2) ? 2 : 0;
+  else if (key == KEY_A)
+    x -= (x != 0) ? 2 : 0;
+}
+
 Player::Player() : GameEntity()
 {
   std::cout << "Game started!" << std::endl;
