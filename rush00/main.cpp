@@ -170,8 +170,8 @@ int	main(void)
         if (player.lives <= 0)
           player.game_over = true;
         while (!player.game_over){
-        usleep(7 * MICROSECONDS_BY_FRAME);
-        int key = gameWindow.GetChar();
+          usleep(7 * MICROSECONDS_BY_FRAME);
+          int key = gameWindow.GetChar();
         if (key == KEY_SPACE) {
             player.makeShooting();
         }
@@ -251,7 +251,7 @@ int	main(void)
         init_info_window(&infoWindow);
         init_stat_window(&statWindow, &player);
         gameWindow.Refresh();
-        }
+    }
     }
     endwin();
     return 0;

@@ -5,61 +5,57 @@
 Player::Player() : GameEntity()
 {
   std::cout << "Game started!" << std::endl;
-  this->score = 0;
-  this->scoreOnLevel = 0;
-  this->maxScoreOnLevel = 100;
-  this->level = 0;
-  this->lives = 5;
-  this->symb = '#';
-  this->type = "user";
-  this->name = "Player 1";
-  this->bullets = 100;
-  this->x = 0;
-  this->y = 10;
-  this->current_bullet = -1;
+  score = 0;
+  scoreOnLevel = 0;
+  maxScoreOnLevel = 100;
+  level = 0;
+  lives = 5;
+  symb = '#';
+  type = "user";
+  name = "Player 1";
+  bullets = 100;
+  x = 0;
+  y = 10;
+  current_bullet = -1;
 
-  this->rockets = new GameEntity[bullets];
+  rockets = new GameEntity[bullets];
   int j = 0;
   while (j < bullets)
   {
-    this->rockets[j].type = "rocket";
-    this->rockets[j].symb = 'o';
-    this->rockets[j].x = this->x + 2;
-    this->rockets[j].y = this->y;
+    rockets[j].type = "rocket";
+    rockets[j].x = this->x + 2;
+    rockets[j].y = this->y;
     j++;
   }
   std::cout << "Enter your name, please..." << std::endl;
   std::cin >> name;
 }
 
-Player::Player(std::string ustype) : GameEntity(ustype)
+Player::Player(std::string ustype, chtype rsymb) : GameEntity(ustype)
 {
-  //std::cout << "Game started!" << std::endl;
-  this->type = ustype;
+  type = ustype;
   game_over = false;
-  this->score = 0;
-  this->scoreOnLevel = 0;
-  this->maxScoreOnLevel = 100;
-  this->level = 0;
-  this->lives = 5;
-  this->symb = '#';
-  this->bullets = 100;
-  this->x = 0;
-  this->y = 10;
-  this->current_bullet = -1;
+  score = 0;
+  scoreOnLevel = 0;
+  maxScoreOnLevel = 100;
+  level = 0;
+  lives = 5;
+  symb = '#';
+  bullets = 100;
+  x = 0;
+  y = 10;
+  current_bullet = -1;
 
-  this->rockets = new GameEntity[bullets];
+  rockets = new GameEntity[bullets];
   int j = 0;
   while (j < bullets)
   {
-    this->rockets[j].type = "rocket";
-    this->rockets[j].symb = 'o';
-    this->rockets[j].x = this->x + 2;
-    this->rockets[j].y = this->y;
+    rockets[j].type = "rocket";
+    rockets[j].symb = rsymb;
+    rockets[j].x = this->x + 2;
+    rockets[j].y = this->y;
     j++;
   }
-  //std::cout << "Enter your name, please..." << std::endl;
-  //std::cin >> name;
 }
 
 Player::Player(Player const & copy) : GameEntity()
@@ -78,84 +74,38 @@ Player & Player::operator=(Player const & over)
 {
   if (this != &over)
   {
-    this->type = over.type;
-    this->score = over.score;
-    this->scoreOnLevel = over.scoreOnLevel;
-    this->maxScoreOnLevel = over.maxScoreOnLevel;
-    this->level = over.level;
-    this->lives = over.lives;
-    this->symb = over.symb;
-    this->name = over.name;
-    this->bullets = over.bullets;
-    this->x = over.x;
-    this->y = over.y;
-    this->current_bullet = over.current_bullet;
+    type = over.type;
+    score = over.score;
+    scoreOnLevel = over.scoreOnLevel;
+    maxScoreOnLevel = over.maxScoreOnLevel;
+    level = over.level;
+    lives = over.lives;
+    symb = over.symb;
+    name = over.name;
+    bullets = over.bullets;
+    x = over.x;
+    y = over.y;
+    current_bullet = over.current_bullet;
   }
   return (*this);
 }
 
 void Player::makeShooting()
 {
-  int j = 0;
-
-  if (this->bullets > 0)
+  if (bullets > 0)
   {
-    this->bullets--;
-    if (this->current_bullet == 100)
-      this->current_bullet = -1;
-    rockets[current_bullet].rocketMoving(this->x + 2, this->y);
-    this->current_bullet++;
-    if (this->scoreOnLevel >= this->maxScoreOnLevel)
+    bullets--;
+    if (current_bullet == 100)
+      current_bullet = -1;
+    rockets[current_bullet].rocketMoving(x + 2, y);
+    current_bullet++;
+    if (scoreOnLevel >= maxScoreOnLevel)
     {
-      this->level++;
-      this->lives++;
-      this->maxScoreOnLevel += 100;
-      this->scoreOnLevel = 0;
-      this->bullets += 100;
-      std::cout << "You riched " << this->level << " level!\n"
-                << "Your ammunition was raised to " << this->bullets << "!" << std::endl;
-    }
-  }
-  else if (this->bullets == 0)
-  {
-    std::cout << "Game over! Bullets ended before you won all enemies! Try again!" << std::endl;
-    this->score = 0;
-    this->scoreOnLevel = 0;
-    this->maxScoreOnLevel = 100;
-    this->level = 0;
-    this->lives = 5;
-    this->symb = '#';
-    this->bullets = 100;
-    this->x = 0;
-    this->y = 10;
-    this->current_bullet = -1;
-    j = 0;
-    while (j < bullets)
-    {
-      this->rockets[j].x = this->x + 2;
-      this->rockets[j].y = this->y;
-      j++;
-    }
-  }
-  else if (this->lives == 0)
-  {
-    std::cout << "Game over! Your player died. Try again!" << std::endl;
-    this->score = 0;
-    this->scoreOnLevel = 0;
-    this->maxScoreOnLevel = 100;
-    this->level = 0;
-    this->lives = 5;
-    this->symb = '#';
-    this->bullets = 100;
-    this->x = 0;
-    this->y = 10;
-    this->current_bullet = -1;
-    j = 0;
-    while (j < bullets)
-    {
-      this->rockets[j].x = this->x + 2;
-      this->rockets[j].y = this->y;
-      j++;
+      level++;
+      lives++;
+      maxScoreOnLevel += 100;
+      scoreOnLevel = 0;
+      bullets += 100;
     }
   }
 }
