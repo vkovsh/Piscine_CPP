@@ -12,7 +12,6 @@ GameEntity::GameEntity(std::string ustype)
 
   this->type = ustype;
   this->symb = 'o';
-
   this->x = 1;
   this->y = 1;
 }
@@ -46,3 +45,10 @@ void GameEntity::rocketMoving(int x1, int y1)
   this->x = x1;
   this->y = y1;
 }
+
+/*void GameEntity::clear()
+{
+  this->symb = 'o';
+  this->x = 1;
+  this->y = 1;
+}*/

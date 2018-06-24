@@ -16,6 +16,7 @@ class Enemy: public GameEntity
   //private:
     Enemy *group;
     GameEntity *rockets;
+    int count;
     int bullets;
     int current_bullet;
     int lives;

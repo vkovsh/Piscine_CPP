@@ -7,6 +7,7 @@
 #include <sys/ioctl.h>
 
 void    init_info_window(Window *w) {
+    w->Clear();
     w->PutStr("Game Info", 1, 15);
     w->PutStr("Controls: W - UP, D - RIGHT, ", 3, 2);
     w->PutStr("S - DOWN, A - LEFT to move", 4, 12);
@@ -17,13 +18,14 @@ void    init_info_window(Window *w) {
 }
 
 void    init_stat_window(Window *w, Player *player) {
+    w->Clear();
     w->PutStr("Game Stats", 1, 15);
     w->PutStr("Player name: ", 3, 2);
     w->PutStr(player->name, 3, 15);
     w->PutStr("Level: ", 5, 2);
     w->PutChar((player->level + '0') | A_BOLD | A_STANDOUT, 5, 15);
     w->PutStr("Lives: ", 7, 2);
-    w->PutChar((player->lives + '0') | A_BOLD | A_STANDOUT, 7, 15);
+    mvwprintw(w->getWindow(), 7, 15, "%d", player->lives);
     w->PutStr("Score: ", 9, 2);
     mvwprintw(w->getWindow(), 9, 15, "%d", player->score);
     w->PutStr("Rockets: ", 11, 2);
@@ -48,8 +50,72 @@ void handle_winch(int sig){
     signal(SIGWINCH, handle_winch);
 }
 
+void fill_coords(Enemy &enemy)
+{
+  int i = 0;
+  int j = 0;
+
+  while (i < enemy.group[0].count)
+  {
+    j = 0;
+    while (j < enemy.group[0].count)
+    {
+      enemy.group[i].rockets[j].rocketMoving(enemy.group[i].x - 2, enemy.group[i].y);
+      j++;
+    }
+    i++;
+  }
+}
+
+int enemies_shooting(Player &player, Enemy &enemy, FieldWindow &gameWindow, bool flag)
+{
+  int i = 0;
+  int j = 0;
+  while (i < enemy.group[0].count)
+  {
+    if (enemy.group[i].x > 3)
+      gameWindow.PutChar(enemy.group[i].symb | A_BOLD, enemy.group[i].y, enemy.group[i].x);
+    if (enemy.group[i].rockets[0].x > 3)
+      gameWindow.PutChar(enemy.group[i].rockets[0].symb | A_BOLD, enemy.group[i].rockets[0].y, enemy.group[i].rockets[0].x);
+    else
+    {
+      j = 0;
+      while (j < enemy.group[0].count)
+      {
+        enemy.group[j].rockets[0].x = enemy.group[j].x;
+        enemy.group[j].rockets[0].y = enemy.group[j].y;
+        j++;
+      }
+    }
+    if (player.x == enemy.group[i].rockets[j].x && player.y == enemy.group[i].rockets[j].y)
+      player.lives--;
+    if (player.lives == 0)
+    {
+      gameWindow.PutStr("GAME OVER: ", 29, 25);
+      return (0);
+    }
+    if ((player.y == enemy.group[i].y && (player.x == enemy.group[i].x + 1 || player.x == enemy.group[i].x - 1))
+    || ((player.y == enemy.group[i].y + 1 || player.y == enemy.group[i].y - 1) && player.x == enemy.group[i].x))
+      player.lives--;
+    if (player.lives == 0)
+    {
+      gameWindow.PutStr("GAME OVER: ", 29, 25);
+      return (0);
+    }
+    enemy.group[i].rockets[j].x -= 2;
+    if (flag)
+        enemy.group[i].x -= 2;
+    i++;
+  }
+  return (1);
+}
+
 int	main(void)
 {
+    std::srand(time(NULL));
+    /*int enemies = 1 + rand() % 12;
+    Enemy enemy(enemies, "zork");
+    fill_coords(enemy);*/
 	initscr();
     curs_set(0);
     start_color();
@@ -66,20 +132,21 @@ int	main(void)
     FieldWindow gameWindow = FieldWindow(32, 60);
     Player player("nemesis");
     player.name = "nemesis";
-    Enemy enemy("zork");
-    enemy.x = 40;
-    enemy.y = 4;
-    player.x = 0;
-    player.y = 0;
-    player.score = 0;
+    /*
+    Enemy enemy(enemies, "zork");
+    fill_coords(enemy);
+*/
     Window infoWindow = Window(11, 40, 21, 61);
-    init_info_window(&infoWindow);
     Window statWindow = Window(20, 40, 0, 61);
-    init_stat_window(&statWindow, &player);
     keypad(stdscr, true);
    // int x, y;
-    halfdelay(2);
-    player.current_bullet = -1;
+    halfdelay(8);
+    player.current_bullet = 0;
+    int enemies = 1 + rand() % 12;
+    Enemy enemy(enemies, "zork");
+    fill_coords(enemy);
+    //enemies_shooting(player, enemy, gameWindow, false);
+    bool enemy_render = true;
     while (true) {
         int key = gameWindow.GetChar();
         player.move(key);
@@ -102,17 +169,18 @@ int	main(void)
         
         init_pair(4, COLOR_RED, COLOR_BLACK);
         wattron(gameWindow.getWindow(), COLOR_PAIR(4));
-        gameWindow.PutChar(enemy.symb | A_BOLD, enemy.y, enemy.x);
+        enemies_shooting(player, enemy, gameWindow, enemy_render);
+        enemy_render = !enemy_render;
         wattroff(gameWindow.getWindow(), COLOR_PAIR(4));
-        if (enemy.x)
-            enemy.x -= 2;
 
-        for (int i = 0; i <= player.current_bullet; ++i) {
+        for (int i = 0; i < player.current_bullet; ++i) {
             gameWindow.PutChar(player.rockets[i].symb | A_BOLD,
                                 player.rockets[i].y + Y_SPLIT,
                                 player.rockets[i].x + X_SPLIT);
             player.rockets[i].x += 2;
         }
+        init_info_window(&infoWindow);
+        init_stat_window(&statWindow, &player);
         gameWindow.Refresh();
     }
     endwin();

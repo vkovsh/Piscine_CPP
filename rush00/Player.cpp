@@ -2,17 +2,6 @@
 #include "Player.hpp"
 #include "GameEntity.hpp"
 
-void Player::move(int key) {
-  if (key == KEY_W)
-    y -= (y != 0) ? 2 : 0;
-  else if (key == KEY_S)
-    y += (y != FIELD_HEIGHT - 2) ? 2 : 0;
-  else if (key == KEY_D)
-    x += (x != FIELD_WIDTH - 2) ? 2 : 0;
-  else if (key == KEY_A)
-    x -= (x != 0) ? 2 : 0;
-}
-
 Player::Player() : GameEntity()
 {
   std::cout << "Game started!" << std::endl;
@@ -21,13 +10,13 @@ Player::Player() : GameEntity()
   this->maxScoreOnLevel = 100;
   this->level = 0;
   this->lives = 5;
-  this->symb = 'U';
+  this->symb = '#';
   this->type = "user";
   this->name = "Player 1";
   this->bullets = 100;
-  this->x = 0;
-  this->y = 0;
-  this->current_bullet = 0;
+  this->x = 4;
+  this->y = 14;
+  this->current_bullet = -1;
 
   this->rockets = new GameEntity[bullets];
   int j = 0;
@@ -35,7 +24,7 @@ Player::Player() : GameEntity()
   {
     this->rockets[j].type = "rocket";
     this->rockets[j].symb = 'o';
-    this->rockets[j].x = this->x;
+    this->rockets[j].x = this->x + 2;
     this->rockets[j].y = this->y;
     j++;
   }
@@ -43,7 +32,7 @@ Player::Player() : GameEntity()
   std::cin >> name;
 }
 
-Player::Player(std::string ustype) : GameEntity()
+Player::Player(std::string ustype) : GameEntity(ustype)
 {
   //std::cout << "Game started!" << std::endl;
   this->type = ustype;
@@ -54,9 +43,9 @@ Player::Player(std::string ustype) : GameEntity()
   this->lives = 5;
   this->symb = '#';
   this->bullets = 100;
-  this->x = 0;
-  this->y = 0;
-  this->current_bullet = 0;
+  this->x = 4;
+  this->y = 14;
+  this->current_bullet = -1;
 
   this->rockets = new GameEntity[bullets];
   int j = 0;
@@ -64,7 +53,7 @@ Player::Player(std::string ustype) : GameEntity()
   {
     this->rockets[j].type = "rocket";
     this->rockets[j].symb = 'o';
-    this->rockets[j].x = this->x;
+    this->rockets[j].x = this->x + 2;
     this->rockets[j].y = this->y;
     j++;
   }
@@ -113,7 +102,7 @@ void Player::makeShooting()
     this->bullets--;
     if (this->current_bullet == 100)
       this->current_bullet = -1;
-    rockets[current_bullet].rocketMoving(this->x, this->y);
+    rockets[current_bullet].rocketMoving(this->x + 2, this->y);
     this->current_bullet++;
     this->score += 5;
     this->scoreOnLevel += 5;
@@ -124,36 +113,19 @@ void Player::makeShooting()
       this->maxScoreOnLevel += 100;
       this->scoreOnLevel = 0;
       this->bullets += 100;
+      std::cout << "You riched " << this->level << " level!\n"
+                << "Your ammunition was raised to " << this->bullets << "!" << std::endl;
     }
   }
   else if (this->bullets == 0)
   {
+    std::cout << "Game over! Bullets ended before you won all enemies! Try again!" << std::endl;
     this->score = 0;
     this->scoreOnLevel = 0;
     this->maxScoreOnLevel = 100;
     this->level = 0;
     this->lives = 5;
-    this->symb = 'U';
-    this->bullets = 100;
-    this->x = 0;
-    this->y = 0;
-    this->current_bullet = 0;
-    j = 0;
-    while (j < bullets)
-    {
-      this->rockets[j].x = this->x + 2;
-      this->rockets[j].y = this->y;
-      j++;
-    }
-  }
-  else if (this->lives == 0)
-  {
-    this->score = 0;
-    this->scoreOnLevel = 0;
-    this->maxScoreOnLevel = 100;
-    this->level = 0;
-    this->lives = 5;
-    this->symb = 'U';
+    this->symb = '#';
     this->bullets = 100;
     this->x = 0;
     this->y = 0;
@@ -166,4 +138,36 @@ void Player::makeShooting()
       j++;
     }
   }
+  else if (this->lives == 0)
+  {
+    std::cout << "Game over! Your player died. Try again!" << std::endl;
+    this->score = 0;
+    this->scoreOnLevel = 0;
+    this->maxScoreOnLevel = 100;
+    this->level = 0;
+    this->lives = 5;
+    this->symb = '#';
+    this->bullets = 100;
+    this->x = 4;
+    this->y = 14;
+    this->current_bullet = -1;
+    j = 0;
+    while (j < bullets)
+    {
+      this->rockets[j].x = this->x + 2;
+      this->rockets[j].y = this->y;
+      j++;
+    }
+  }
+}
+
+void Player::move(int key) {
+  if (key == KEY_W)
+    y -= (y != 0) ? 2 : 0;
+  else if (key == KEY_S)
+    y += (y != FIELD_HEIGHT - 2) ? 2 : 0;
+  else if (key == KEY_D)
+    x += (x != FIELD_WIDTH - 2) ? 2 : 0;
+  else if (key == KEY_A)
+    x -= (x != 0) ? 2 : 0;
 }
