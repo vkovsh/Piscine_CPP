@@ -68,7 +68,7 @@ void fill_coords(Enemy &enemy)
     j = 0;
     while (j < enemy.group[0].count)
     {
-      enemy.group[i].rockets[j].rocketMoving(enemy.group[i].x - 2, enemy.group[i].y);
+      enemy.group[i].rockets.rocketMoving(enemy.group[i].x - 2, enemy.group[i].y);
       j++;
     }
     i++;
@@ -99,19 +99,19 @@ int enemies_shooting(Player &player, Enemy &enemy, FieldWindow &gameWindow, bool
       fill_coords(enemy);
       enemy.clear();
     }
-    if (enemy.group[i].rockets[0].x > 3 && !enemy.group[i].if_died && !enemy.group[i].rockets[0].if_died)
-      gameWindow.PutChar(enemy.group[i].rockets[0].symb | A_BOLD, enemy.group[i].rockets[0].y, enemy.group[i].rockets[0].x);
+    if (enemy.group[i].rockets.x > 3 && !enemy.group[i].if_died && !enemy.group[i].rockets.if_died)
+      gameWindow.PutChar(enemy.group[i].rockets.symb | A_BOLD, enemy.group[i].rockets.y, enemy.group[i].rockets.x);
     else
     {
       j = 0;
       while (j < enemy.group[0].count)
       {
-        enemy.group[j].rockets[0].x = enemy.group[j].x;
-        enemy.group[j].rockets[0].y = enemy.group[j].y;
+        enemy.group[j].rockets.x = enemy.group[j].x;
+        enemy.group[j].rockets.y = enemy.group[j].y;
         j++;
       }
     }
-    if (player.x == enemy.group[i].rockets[0].x && player.y == enemy.group[i].rockets[0].y)
+    if (player.x == enemy.group[i].rockets.x && player.y == enemy.group[i].rockets.y)
       player.lives--;
     if (player.lives == 0)
     {
@@ -126,7 +126,7 @@ int enemies_shooting(Player &player, Enemy &enemy, FieldWindow &gameWindow, bool
       gameWindow.PutStr("GAME OVER: ", 29, 25);
       return (0);
     }
-    enemy.group[i].rockets[0].x -= 2;
+    enemy.group[i].rockets.x -= 2;
     if (flag)
         enemy.group[i].x -= 2;
     i++;
@@ -160,7 +160,7 @@ int	main(void)
     
     int enemies = 3 + rand() % 10;
     int copy_en = enemies;
-    Enemy enemy(12, "zork");
+    Enemy enemy(12);
     fill_coords(enemy);
     bool enemy_render = true;
     nodelay(gameWindow.getWindow(), true);
@@ -235,11 +235,11 @@ int	main(void)
                   }
 
                 }
-                if (player.rockets[i].y == enemy.group[j].rockets[0].y &&
-                  (player.rockets[i].x == enemy.group[j].rockets[0].x - 2 ||
-                  player.rockets[i].x == enemy.group[j].rockets[0].x + 2))
+                if (player.rockets[i].y == enemy.group[j].rockets.y &&
+                  (player.rockets[i].x == enemy.group[j].rockets.x - 2 ||
+                  player.rockets[i].x == enemy.group[j].rockets.x + 2))
                   {
-                    enemy.group[j].rockets[0].if_died = 1;
+                    enemy.group[j].rockets.if_died = 1;
                     player.score += 5;
                     player.scoreOnLevel += 5;
                   }
