@@ -78,7 +78,7 @@ Window	&Window::operator = (const Window &cpy) {
 }
 
 bool	Window::DrawBox(chtype v, chtype h) {
-	init_pair(1, COLOR_CYAN, COLOR_RED);
+	init_pair(1, COLOR_YELLOW, COLOR_MAGENTA);
     wattron(_window, COLOR_PAIR(1));
 	box(_window, v, h);
 	wattroff(_window, COLOR_PAIR(1));

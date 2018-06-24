@@ -7,7 +7,7 @@ SRCS	=	main.cpp		\
 			GameEntity.cpp	\
 			Player.cpp
 			
-FLAGS	=	-Wall -Werror -Wextra
+FLAGS	=	-Wall -Werror -Wextra -g
 CC		=	clang++
 RM		=	rm -rf
 
