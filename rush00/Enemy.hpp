@@ -13,7 +13,6 @@ class Enemy: public GameEntity
     Enemy(Enemy const & copy);
     ~Enemy();
     Enemy & operator=(Enemy const & over);
-  //private:
     Enemy *group;
     GameEntity *rockets;
     int count;
@@ -21,6 +20,7 @@ class Enemy: public GameEntity
     int current_bullet;
     int lives;
     void makeShooting();
+    void clear();
 };
 
 #endif

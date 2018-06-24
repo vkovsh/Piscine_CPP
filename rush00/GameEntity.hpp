@@ -15,6 +15,7 @@ class GameEntity
     int x;
     int y;
     char symb;
+    int if_died;
     void rocketMoving(int x1, int y1);
 };
 

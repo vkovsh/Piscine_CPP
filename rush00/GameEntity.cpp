@@ -3,6 +3,10 @@
 
 GameEntity::GameEntity()
 {
+  this->symb = 'o';
+  this->x = 1;
+  this->y = 1;
+  this->if_died = 0;
   //std::cout << "GameEntity Default constructor." << std::endl;
 }
 
@@ -11,9 +15,10 @@ GameEntity::GameEntity(std::string ustype)
   //std::cout << ustype << "GameEntity Name constructor" << std::endl;
 
   this->type = ustype;
-  this->symb = '<';
+  this->symb = 'o';
   this->x = 1;
   this->y = 1;
+  this->if_died = 0;
 }
 
 GameEntity::GameEntity(GameEntity const & copy)
@@ -36,6 +41,7 @@ GameEntity & GameEntity::operator=(GameEntity const & over)
     this->symb = over.symb;
     this->x = over.x;
     this->y = over.y;
+    this->if_died = 0;
   }
   return (*this);
 }

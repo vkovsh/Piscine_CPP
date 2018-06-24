@@ -16,6 +16,7 @@ class Player: public GameEntity
     std::string name;
     int score;
     int level;
+  //private:
     bool game_over;
     GameEntity *rockets;
     int scoreOnLevel;

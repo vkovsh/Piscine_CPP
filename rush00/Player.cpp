@@ -14,8 +14,8 @@ Player::Player() : GameEntity()
   this->type = "user";
   this->name = "Player 1";
   this->bullets = 100;
-  this->x = 4;
-  this->y = 14;
+  this->x = 0;
+  this->y = 10;
   this->current_bullet = -1;
 
   this->rockets = new GameEntity[bullets];
@@ -36,6 +36,7 @@ Player::Player(std::string ustype) : GameEntity(ustype)
 {
   //std::cout << "Game started!" << std::endl;
   this->type = ustype;
+  game_over = false;
   this->score = 0;
   this->scoreOnLevel = 0;
   this->maxScoreOnLevel = 100;
@@ -43,8 +44,8 @@ Player::Player(std::string ustype) : GameEntity(ustype)
   this->lives = 5;
   this->symb = '#';
   this->bullets = 100;
-  this->x = 4;
-  this->y = 14;
+  this->x = 0;
+  this->y = 10;
   this->current_bullet = -1;
 
   this->rockets = new GameEntity[bullets];
@@ -104,9 +105,7 @@ void Player::makeShooting()
       this->current_bullet = -1;
     rockets[current_bullet].rocketMoving(this->x + 2, this->y);
     this->current_bullet++;
-    this->score += 5;
-    this->scoreOnLevel += 5;
-    if (this->scoreOnLevel == this->maxScoreOnLevel)
+    if (this->scoreOnLevel >= this->maxScoreOnLevel)
     {
       this->level++;
       this->lives++;
@@ -128,7 +127,7 @@ void Player::makeShooting()
     this->symb = '#';
     this->bullets = 100;
     this->x = 0;
-    this->y = 0;
+    this->y = 10;
     this->current_bullet = -1;
     j = 0;
     while (j < bullets)
@@ -141,7 +140,6 @@ void Player::makeShooting()
   else if (this->lives == 0)
   {
     std::cout << "Game over! Your player died. Try again!" << std::endl;
-    this->game_over = true;
     this->score = 0;
     this->scoreOnLevel = 0;
     this->maxScoreOnLevel = 100;
@@ -149,8 +147,8 @@ void Player::makeShooting()
     this->lives = 5;
     this->symb = '#';
     this->bullets = 100;
-    this->x = 4;
-    this->y = 14;
+    this->x = 0;
+    this->y = 10;
     this->current_bullet = -1;
     j = 0;
     while (j < bullets)
