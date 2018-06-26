@@ -48,6 +48,6 @@ void		Form::beSigned(const Bureaucrat & duty) {
 }
 
 std::ostream	&operator << (std::ostream &o, const Form &cpy) {
-	o << " form " << cpy.getName() << " of grade " << cpy.getGrade();
+	o << "Form " << cpy.getName() << " of grade " << cpy.getGrade();
 	return o;
 }

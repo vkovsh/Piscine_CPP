@@ -9,10 +9,11 @@ int		main(void)
 		std::cout << archi << std::endl;
 		Form a("formA", 1);
 		std::cout << a << std::endl;
-		archi.signForm(a);
+		a.beSigned(archi);
+		//bob.signForm(a);
 		//a.beSigned(bob);
 		//a.beSigned(archi);
-		std::cout << std::endl << a << std::endl;
+		std::cout << a << std::endl;
 	}
 	catch (std::exception & e) {
 		std::cout << e.what() << std::endl;

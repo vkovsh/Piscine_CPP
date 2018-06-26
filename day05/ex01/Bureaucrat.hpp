@@ -8,13 +8,13 @@ class Form;
 
 class Bureaucrat {
 	private:
-		class GradeTooHighException: public std::exception {
+		struct GradeTooHighException: public std::exception {
 			const char * what () const throw () {
 				return "Grade too high!";
 			}
 		};
 		
-		class GradeTooLowException: public std::exception {
+		struct GradeTooLowException: public std::exception {
 			const char * what () const throw () {
 				return "Grade too low!";
 			}

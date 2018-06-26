@@ -1,7 +1,10 @@
 #ifndef BUREAUCRAT_HPP
 # define BUREAUCRAT_HPP
 # include <iostream>
-#include <exception>
+# include <exception>
+# include "Form.hpp"
+
+class Form;
 
 class Bureaucrat {
 	private:
@@ -23,12 +26,14 @@ class Bureaucrat {
 
 	public:
 		~Bureaucrat();
+		void				executeForm(Form const & form);
 		Bureaucrat(std::string name = "Archi", int grade = 150);
 		Bureaucrat(const Bureaucrat & cpy);
 		std::string			getName() const;
 		int					getGrade() const;
 		void				promote(unsigned int count = 1);
 		void				demote(unsigned int count = 1);
+		void				signForm(Form & form) const;
 		Bureaucrat			&operator = (const Bureaucrat &cpy);
 		Bureaucrat			&operator += (unsigned int count);
 		Bureaucrat			&operator -= (unsigned int count);
