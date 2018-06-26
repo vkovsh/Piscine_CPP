@@ -2,9 +2,12 @@
 
 Form::~Form(){}
 
-Form::Form(): _name("default"), _grade(150), _signed(false){}
+Form::Form(): _name("default"), _grade(150) {
+	_signed = false;
+}
 
-Form::Form(std::string name, int grade, bool is_signed): _name(name), _grade(grade), _signed(is_signed) {
+Form::Form(std::string name, int grade, bool is_signed): _name(name), _grade(grade) {
+	_signed = is_signed;
 	if (grade > 150) {
 		throw _l;
 	}
@@ -13,7 +16,8 @@ Form::Form(std::string name, int grade, bool is_signed): _name(name), _grade(gra
 	}
 }
 
-Form::Form(const Form & cpy): _name(cpy._name), _grade(cpy._grade), _signed(cpy._signed) {
+Form::Form(const Form & cpy): _name(cpy._name), _grade(cpy._grade) {
+	_signed = cpy._signed;	
 	*this = cpy;
 }
 

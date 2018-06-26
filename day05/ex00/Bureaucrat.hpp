@@ -27,9 +27,15 @@ class Bureaucrat {
 		Bureaucrat(const Bureaucrat & cpy);
 		std::string			getName() const;
 		int					getGrade() const;
-		void				promote();
-		void				demote();
+		void				promote(unsigned int count = 1);
+		void				demote(unsigned int count = 1);
 		Bureaucrat			&operator = (const Bureaucrat &cpy);
+		Bureaucrat			&operator += (unsigned int count);
+		Bureaucrat			&operator -= (unsigned int count);
+		Bureaucrat			&operator++(void);  
+   		Bureaucrat			operator++(int);
+		Bureaucrat			&operator--(void);
+		Bureaucrat			operator--(int);
 };
 
 std::ostream	&operator << (std::ostream &o, const Bureaucrat &cpy);

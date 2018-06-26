@@ -4,16 +4,22 @@ int		main(void)
 {
 	try {
 		Bureaucrat	bob("bob", 150);
-		//Bureaucrat	bob("bob", 200);
-		//bob.demote();
+		++bob;
 		std::cout << bob << std::endl;
-		Bureaucrat	archi = Bureaucrat();
-		std::cout << archi << std::endl;
-		while (archi.getGrade() != 1) {
-			archi.promote();
-			std::cout << archi << std::endl;
-		}
-		//archi.promote();
+		bob--;
+		std::cout << bob << std::endl;
+		bob++;
+		std::cout << bob << std::endl;
+		--bob;
+		std::cout << bob << std::endl;
+		bob += 100;
+		std::cout << bob << std::endl;
+		bob -= 100;
+		std::cout << bob << std::endl;
+		bob.promote(100);
+		std::cout << bob << std::endl;
+		bob.demote(100);
+		std::cout << bob << std::endl;
 	}
 	catch (std::exception & e) {
 		std::cout << e.what() << std::endl;

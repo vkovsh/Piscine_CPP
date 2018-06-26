@@ -7,18 +7,18 @@
 class Form;
 
 class Bureaucrat {
-	struct GradeTooHighException: public std::exception {
-		const char * what () const throw () {
-			return "Grade too high!";
-		}
-	};
-	struct GradeTooLowException: public std::exception {
-		const char * what () const throw () {
-			return "Grade too low!";
-		}
-	};
-
 	private:
+		class GradeTooHighException: public std::exception {
+			const char * what () const throw () {
+				return "Grade too high!";
+			}
+		};
+		
+		class GradeTooLowException: public std::exception {
+			const char * what () const throw () {
+				return "Grade too low!";
+			}
+		};
 		const std::string		_name;
 		int						_rank;
 		GradeTooHighException	_h;
@@ -30,11 +30,18 @@ class Bureaucrat {
 		Bureaucrat(const Bureaucrat & cpy);
 		std::string			getName() const;
 		int					getGrade() const;
-		void				promote();
-		void				demote();
+		void				promote(unsigned int count = 1);
+		void				demote(unsigned int count = 1);
 		void				signForm(Form & form) const;
 		Bureaucrat			&operator = (const Bureaucrat &cpy);
+		Bureaucrat			&operator += (unsigned int count);
+		Bureaucrat			&operator -= (unsigned int count);
+		Bureaucrat			&operator++(void);  
+   		Bureaucrat			operator++(int);
+		Bureaucrat			&operator--(void);
+		Bureaucrat			operator--(int);
 };
+
 std::ostream	&operator << (std::ostream &o, const Bureaucrat &cpy);
 
 #endif

@@ -34,22 +34,74 @@ int				Bureaucrat::getGrade() const {
 	return _rank;
 }
 
-void			Bureaucrat::promote() {
-	if (_rank > 1) {
-		--_rank;
+void			Bureaucrat::promote(unsigned int count) {
+	if (_rank - count >= 1) {
+		_rank -= count;
 	}
 	else {
 		throw _h;
 	}
 }
 
-void			Bureaucrat::demote() {
-	if (_rank < 150) {
-		++_rank;
+void			Bureaucrat::demote(unsigned int count) {
+	if (_rank + count <= 150) {
+		_rank += count;
 	}
 	else {
 		throw _l;
 	}
+}
+
+Bureaucrat			&Bureaucrat::operator += (unsigned int count) {
+	if (_rank - count >= 1) {
+		_rank -= count;
+	}
+	else {
+		throw _h;
+	}
+	return *this;
+}
+
+Bureaucrat			&Bureaucrat::operator -= (unsigned int count) {
+	if (_rank + count <= 150) {
+		_rank += count;
+	}
+	else {
+		throw _l;
+	}
+	return *this;
+}
+
+Bureaucrat			&Bureaucrat::operator++(void) {
+	if (_rank > 1) {
+		_rank--;
+	}
+	else {
+		throw _h;
+	}
+	return (*this);
+}
+
+Bureaucrat			Bureaucrat::operator++(int) {
+	Bureaucrat temp = *this;
+	++*this;
+	return (temp);
+}
+
+Bureaucrat			&Bureaucrat::operator--(void) {
+	if (_rank < 150) {
+		_rank++;
+	}
+	else {
+		throw _l;
+	}
+	return (*this);
+}
+
+Bureaucrat			Bureaucrat::operator--(int) {
+	Bureaucrat temp = *this;
+	--*this;
+	return (temp);
 }
 
 void			Bureaucrat::signForm(Form & form) const {
