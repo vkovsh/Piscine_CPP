@@ -6,8 +6,6 @@ class	Base {
 		Base(void);
 		Base(Base const & cpy);
 		virtual ~Base(void);
-	
-		Base &operator=(Base const & cpy);
 };
 
 #endif

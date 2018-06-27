@@ -7,8 +7,3 @@ Base::Base(Base const & src){
 }
 	
 Base::~Base(void){}
-
-Base &Base::operator=(Base const & cpy){
-	*this = cpy;
-	return *this;
-}

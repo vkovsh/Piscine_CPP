@@ -7,8 +7,6 @@ class	C: public Base {
 		C(void);
 		C(C const & cpy);
 		~C(void);
-	
-		C &operator=(C const & cpy);
 };
 
 #endif
