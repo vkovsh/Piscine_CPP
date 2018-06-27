@@ -18,7 +18,7 @@ bool		isPrintable(char c) {
 }
 
 int	getPrecision(char *data) {
-	int length = (int)strlen(data);
+	int length = static_cast<int>(strlen(data));
 	bool dot_set = false;
 	int i = 0;
 	int precision = 0;
