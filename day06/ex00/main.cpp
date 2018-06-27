@@ -97,7 +97,12 @@ int	main(int ac, char **av)
 	int precision;
 	for (int i = 1; i < ac; ++i) {
 		precision = getPrecision(av[i]);
-		value = atof(av[i]);
+		if (strlen(av[i]) == 1 && isPrintable(av[i][0]) && !isdigit(av[i][0])) {
+			value = av[i][0];
+		}
+		else {
+			value = atof(av[i]);
+		}
 		printChar(value);
 		printInt(value);
 		printFloat(value, precision);
