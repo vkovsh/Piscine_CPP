@@ -3,8 +3,6 @@
 
 class	Base {
 	public:
-		Base(void);
-		Base(Base const & cpy);
 		virtual ~Base(void);
 };
 
