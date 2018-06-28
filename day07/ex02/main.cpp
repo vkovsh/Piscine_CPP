@@ -4,7 +4,7 @@
 int	main(void)
 {
 	unsigned int i = 9;
-	Array<int> intNum = Array<int>(i);
+	Array<> intNum = Array<>(i);
 	for (unsigned int j = 0; j < intNum.size(); ++j) {
 		intNum[j] = j;
 	}
