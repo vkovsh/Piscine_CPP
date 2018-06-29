@@ -15,67 +15,85 @@ class MutantStack
 		typedef typename std::list<T>::const_iterator	const_iterator;
 
 	private:
-		std::list<T>			_datas;
-		size_type				_data_count;
+		std::list<T>			_data;
+		size_type				_count;
 
 	public:
-								MutantStack<T>(void):
-									_datas()
-		{
-			_data_count = 0;
+		MutantStack<T>(void): _data(), _count(0) {}
+
+		~MutantStack<T>(void) {}
+		
+		MutantStack<T>(MutantStack<T> const &src) {
+			*this = src;
 		}
 
-								~MutantStack<T>(void){}
-								MutantStack<T>(MutantStack<T> const &src) { *this = src; }
-
-		MutantStack<T>			&operator=(MutantStack<T> const &rhs)
+		MutantStack<T>	&operator = (MutantStack<T> const &rhs)
 		{
-			_datas = rhs._datas;
-			_data_count = rhs._data_count;
-			return (*this);
+			_data = rhs._data;
+			_count = rhs._count;
+			return *this;
 		}
 
-		bool					empty(void) const	{ return (_data_count == 0); }
-		size_type				size(void) const	{ return (_data_count); }
-		T const					&top(void) const	{ return (_datas.front()); }
-		T 						&top(void)			{ return (_datas.front()); }
+		bool					empty(void) const {
+			return _count == 0;
+		}
+
+		size_type				size(void) const {
+			return _count;
+		}
+
+		T const					&top(void) const {
+			return _data.front();
+		}
+
+		T 						&top(void) {
+			return _data.front();
+		}
 
 		void					push(T const &value)
 		{
-			if (_data_count > 0)
+			if (_count >= 0)
 			{
-				_datas.push_front(value);
-				_data_count++;
+				_data.push_front(value);
+				_count++;
 			}
 		}
 
 		void					pop(void)
 		{
-			if (_data_count > 0)
+			if (_count > 0)
 			{
-				_datas.pop_front();
-				_data_count--;
+				_data.pop_front();
+				_count--;
 			}
 		}
 
-								operator std::stack<T>(void)
-		{
+		operator std::stack<T>(void) {
 			std::stack<T> 								stack;
-			typename std::list<T>::reverse_iterator		ti = _datas.rbegin();
-			typename std::list<T>::reverse_iterator		tie = _datas.rend();
-
-			while (ti != tie)
-			{
+			typename std::list<T>::reverse_iterator		ti = _data.rbegin();
+			typename std::list<T>::reverse_iterator		tie = _data.rend();
+			while (ti != tie) {
 				stack.push(*ti);
 				++ti;
 			}
-			return (stack);
+			return stack;
 		}
 
-		iterator				begin(void)			{ return (_datas.begin()); }
-		const_iterator			begin(void) const	{ return (_datas.begin()); }
-		iterator				end(void)			{ return (_datas.end()); }
-		const_iterator			end(void) const		{ return (_datas.end()); }
+		iterator				begin(void) {
+			return _data.begin();
+		}
+
+		const_iterator			begin(void) const {
+			return _data.begin();
+		}
+
+		iterator				end(void) {
+			return _data.end();
+		}
+
+		const_iterator			end(void) const {
+			return _data.end();
+		}
 };
 
 #endif

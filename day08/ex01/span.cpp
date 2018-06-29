@@ -73,3 +73,25 @@ void			Span::addNumber(int number) {
 		}
 	}
 }
+
+Span	&Span::operator = (const Span & cpy) {
+	_n = cpy._n;
+	_count = cpy._count;
+	if (_ints != NULL) {
+		delete _ints;
+	}
+	_shortestSpan = cpy._shortestSpan;
+	_longestSpan = cpy._longestSpan;
+	_ints = new std::vector<int>(_n);
+	std::copy(cpy._ints, cpy._ints + _count, _ints);
+	return *this;
+}
+
+Span::Span(const Span & rhs) {
+	*this = rhs;
+}
+
+std::ostream	&operator << (std::ostream &o, const Span &cpy) {
+	std::cout << "Span of size " << cpy.getN() << "filled by " << cpy.getC() << std::endl; 
+	return o;
+}
