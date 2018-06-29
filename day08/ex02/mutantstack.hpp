@@ -69,12 +69,12 @@ class MutantStack
 		}
 
 		operator std::stack<T>(void) {
-			std::stack<T> 								stack;
-			typename std::list<T>::reverse_iterator		ti = _data.rbegin();
-			typename std::list<T>::reverse_iterator		tie = _data.rend();
-			while (ti != tie) {
-				stack.push(*ti);
-				++ti;
+			std::stack<T> stack;
+			typename std::list<T>::reverse_iterator	rb = _data.rbegin();
+			typename std::list<T>::reverse_iterator	re = _data.rend();
+			while (rb != re) {
+				stack.push(*rb);
+				++rb;
 			}
 			return stack;
 		}
