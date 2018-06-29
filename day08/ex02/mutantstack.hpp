@@ -34,35 +34,23 @@ class MutantStack
 			return *this;
 		}
 
-		bool					empty(void) const {
-			return _count == 0;
-		}
+		bool					empty(void) const { return _count == 0; }
 
-		size_type				size(void) const {
-			return _count;
-		}
+		size_type				size(void) const { return _count; }
 
-		T const					&top(void) const {
-			return _data.front();
-		}
+		T const					&top(void) const { return _data.front(); }
 
-		T 						&top(void) {
-			return _data.front();
-		}
+		T 						&top(void) { return _data.front(); }
 
-		void					push(T const &value)
-		{
-			if (_count >= 0)
-			{
+		void					push(T const &value) {
+			if (_count >= 0) {
 				_data.push_front(value);
 				_count++;
 			}
 		}
 
-		void					pop(void)
-		{
-			if (_count > 0)
-			{
+		void					pop(void) {
+			if (_count > 0) {
 				_data.pop_front();
 				_count--;
 			}
@@ -79,21 +67,13 @@ class MutantStack
 			return stack;
 		}
 
-		iterator				begin(void) {
-			return _data.begin();
-		}
+		iterator				begin(void) { return _data.begin();	}
 
-		const_iterator			begin(void) const {
-			return _data.begin();
-		}
+		const_iterator			begin(void) const {	return _data.begin(); }
 
-		iterator				end(void) {
-			return _data.end();
-		}
+		iterator				end(void) { return _data.end();	}
 
-		const_iterator			end(void) const {
-			return _data.end();
-		}
+		const_iterator			end(void) const { return _data.end(); }
 };
 
 #endif
